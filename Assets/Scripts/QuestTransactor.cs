@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum QuestStatus { NotAvailable, Available, InProgress, Completed, Failed }
 
@@ -9,6 +10,8 @@ public class QuestTransactor : MonoBehaviour
 {
     public PlayerQuestManager pqm;
     public NPCQuestManager npcQuestManager;
+    public GameObject itemGroup;
+    public GameObject itemPrefab;
 
     public void RequestQuest()
     {
@@ -53,8 +56,15 @@ public class QuestTransactor : MonoBehaviour
         if (pqm.activeQuest)
         {
             pqm.questItems.Add(item);
+            AddItemToUI(item);
             CountQuestItems();
         }
+    }
+
+    private void AddItemToUI(ItemSO item)
+    {
+        var newItem = Instantiate(itemPrefab, itemGroup.transform);
+        newItem.GetComponent<Image>().sprite = item.img;
     }
 
     private void CountQuestItems()

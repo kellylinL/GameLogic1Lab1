@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f582060cf7b3ead4b8df72f81d26194b, type: 3}
-  m_Name: Item_Apples
+  m_Name: Item_Chicken
   m_EditorClassIdentifier: 
-  itemName: Apples
-  itemValue: 2
+  itemName: 
+  itemValue: 0
+  img: {fileID: 0}
