@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum QuestStatus { NotAvailable, Available, InProgress, Completed, Failed }
@@ -13,28 +14,38 @@ public class QuestTransactor : MonoBehaviour
     {
         if (pqm.activeQuest == null)
         {
-            pqm.activeQuest = npcQuestManager.offeredQuest;
-            pqm.questStatus = QuestStatus.InProgress;
-
-            Debug.Log("<color=green>Quest '" +
-                pqm.activeQuest.questName + "' started.</color>");
+            StartQuest();
         }
         else
         {
             if (pqm.questStatus == QuestStatus.Completed)
             {
-                pqm.questItems.AddRange(pqm.activeQuest.rewardItems);
-                pqm.questItems.RemoveAll(item => item == pqm.activeQuest.objectiveItem);
-                pqm.activeQuest = null;
-                pqm.questStatus = QuestStatus.NotAvailable;
-
-                Debug.Log("<color=yellow>Quest Completed!</color>");
+                CompleteQuest();
             }
             else
             {
                 Debug.Log("<color=red>Finish your active quest first!</color>");
             }
         }
+    }
+
+    private void CompleteQuest()
+    {
+        pqm.questItems.AddRange(pqm.activeQuest.rewardItems);
+        pqm.questItems.RemoveAll(item => item == pqm.activeQuest.objectiveItem);
+        pqm.activeQuest = null;
+        pqm.questStatus = QuestStatus.NotAvailable;
+
+        Debug.Log("<color=yellow>Quest Completed!</color>");
+    }
+
+    private void StartQuest()
+    {
+        pqm.activeQuest = npcQuestManager.offeredQuest;
+        pqm.questStatus = QuestStatus.InProgress;
+
+        Debug.Log("<color=green>Quest '" +
+            pqm.activeQuest.questName + "' started.</color>");
     }
 
     public void AddQuestItem(ItemSO item)
@@ -48,14 +59,7 @@ public class QuestTransactor : MonoBehaviour
 
     private void CountQuestItems()
     {
-        int itemCount = 0;
-        foreach(ItemSO item in pqm.questItems)
-        {
-            if (item == pqm.activeQuest.objectiveItem)
-            {
-                itemCount += 1;
-            }
-        }
+        int itemCount = pqm.questItems.Select(i => i == pqm.activeQuest.objectiveItem).Count();
 
         if (itemCount >= pqm.activeQuest.objectiveQuantity)
         {
