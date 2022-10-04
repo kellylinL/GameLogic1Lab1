@@ -3,3 +3,5 @@
 /Packages
 /UserSettings
 /*.vsconfig
+/Temp
+/*.csproj
