@@ -3,4 +3,7 @@
 /Packages
 /UserSettings
 /*.vsconfig
+/Temp
+/*.csproj
 /*.sln
+/.vs
