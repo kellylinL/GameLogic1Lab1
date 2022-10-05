@@ -4,7 +4,7 @@ public class QuestItemController : MonoBehaviour
 {
     public ItemSO itemData;
     public bool isPickup = false;
-    public QuestTransactor _questTransactor;
+    private QuestTransactor _questTransactor;
     void Start()
     {
         _questTransactor = FindObjectOfType<QuestTransactor>();

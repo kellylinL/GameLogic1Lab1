@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,11 +14,15 @@ public class QuestTransactor : MonoBehaviour
     public GameObject itemGroup;
     public QuestItemController itemPrefab;
 
+    public TMP_Text questName;
+    public TMP_Text questStatus;
+
     public void RequestQuest()
     {
         if (pqm.activeQuest == null)
         {
             StartQuest();
+
         }
         else
         {
@@ -49,6 +54,8 @@ public class QuestTransactor : MonoBehaviour
 
         Debug.Log("<color=green>Quest '" +
             pqm.activeQuest.questName + "' started.</color>");
+        questName.text = "Quest: " + pqm.activeQuest.questName;
+        questStatus.text = "Quest Status: " + pqm.questStatus.ToString();
     }
 
     public void AddQuestItem(ItemSO item)
@@ -81,6 +88,7 @@ public class QuestTransactor : MonoBehaviour
         {
             pqm.questStatus = QuestStatus.Completed;
             Debug.Log("<color=blue>Quest objective met.</color>");
+            questStatus.text = "Quest Status: " + pqm.questStatus.ToString();
         }
     }
 }
