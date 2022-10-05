@@ -11,7 +11,7 @@ public class QuestTransactor : MonoBehaviour
     public PlayerQuestManager pqm;
     public NPCQuestManager npcQuestManager;
     public GameObject itemGroup;
-    public GameObject itemPrefab;
+    public QuestItemController itemPrefab;
 
     public void RequestQuest()
     {
@@ -61,10 +61,16 @@ public class QuestTransactor : MonoBehaviour
         }
     }
 
+    public void RemoveQuestItem(int index)
+    {
+        pqm.questItems.RemoveAt(index);
+    }
+
     private void AddItemToUI(ItemSO item)
     {
-        var newItem = Instantiate(itemPrefab, itemGroup.transform);
+        QuestItemController newItem = Instantiate(itemPrefab, itemGroup.transform);
         newItem.GetComponent<Image>().sprite = item.img;
+        newItem.itemData = item;
     }
 
     private void CountQuestItems()
