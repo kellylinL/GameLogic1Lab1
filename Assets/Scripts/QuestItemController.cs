@@ -29,7 +29,6 @@ public class QuestItemController : MonoBehaviour
     {
         int itemIndex = transform.GetSiblingIndex();
         _questTransactor.RemoveQuestItem(itemIndex);
-        Destroy(gameObject);
     }
 
 }

@@ -39,12 +39,26 @@ public class QuestTransactor : MonoBehaviour
 
     private void CompleteQuest()
     {
-        pqm.questItems.AddRange(pqm.activeQuest.rewardItems);
-        pqm.questItems.RemoveAll(item => item == pqm.activeQuest.objectiveItem);
+        RemoveQuestItems();
+        pqm.questItems.AddRange(GetListOfRewards());
         pqm.activeQuest = null;
         SetQuestStatus(QuestStatus.NotAvailable);
         questName.text = "Quest: ";
         Debug.Log("<color=yellow>Quest Completed!</color>");
+    }
+
+    private void RemoveQuestItems()
+    {
+        pqm.questItems.RemoveAll(questItem =>
+        {
+            if (questItem.item == pqm.activeQuest.objectiveItem)
+            {
+                Destroy(questItem.inventoryGameObject);
+                return true;
+            }
+
+            return false;
+        });
     }
 
     private void StartQuest()
@@ -62,28 +76,30 @@ public class QuestTransactor : MonoBehaviour
     {
         if (pqm.activeQuest)
         {
-            pqm.questItems.Add(item);
-            AddItemToUI(item);
+            GameObject itemUIElement = AddItemToUI(item);
+            pqm.questItems.Add(new InventoryItem(item, itemUIElement));
             CountQuestItems();
         }
     }
 
     public void RemoveQuestItem(int index)
     {
+        Destroy(pqm.questItems[index].inventoryGameObject);
         pqm.questItems.RemoveAt(index);
         CountQuestItems();
     }
 
-    private void AddItemToUI(ItemSO item)
+    private GameObject AddItemToUI(ItemSO item)
     {
         QuestItemController newItem = Instantiate(itemPrefab, itemGroup.transform);
         newItem.GetComponent<Image>().sprite = item.img;
         newItem.itemData = item;
+        return newItem.gameObject;
     }
 
     private void CountQuestItems()
     {
-         int itemCount  = pqm.questItems.Where(i =>  i == pqm.activeQuest.objectiveItem).Count();
+         int itemCount  = pqm.questItems.Where(i =>  i.item == pqm.activeQuest.objectiveItem).Count();
 
         if (itemCount >= pqm.activeQuest.objectiveQuantity)
         {
@@ -102,5 +118,12 @@ public class QuestTransactor : MonoBehaviour
 
         if(status == QuestStatus.Completed)
         Debug.Log("<color=blue>Quest objective met.</color>");
+    }
+
+    private List<InventoryItem> GetListOfRewards()
+    {
+        return pqm.activeQuest.rewardItems.Select(ri => {
+            return new InventoryItem(ri, AddItemToUI(ri));
+        }).ToList();
     }
 }
