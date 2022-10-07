@@ -530,6 +530,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chicken Pick Up
       objectReference: {fileID: 0}
+    - target: {fileID: 3841726145750933115, guid: faf171e5351e35046a63081725d70c28, type: 3}
+      propertyPath: isPickup
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faf171e5351e35046a63081725d70c28, type: 3}
 --- !u!1 &344806031

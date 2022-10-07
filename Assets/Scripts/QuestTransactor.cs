@@ -42,8 +42,8 @@ public class QuestTransactor : MonoBehaviour
         pqm.questItems.AddRange(pqm.activeQuest.rewardItems);
         pqm.questItems.RemoveAll(item => item == pqm.activeQuest.objectiveItem);
         pqm.activeQuest = null;
-        pqm.questStatus = QuestStatus.NotAvailable;
-
+        SetQuestStatus(QuestStatus.NotAvailable);
+        questName.text = "Quest: ";
         Debug.Log("<color=yellow>Quest Completed!</color>");
     }
 
@@ -55,7 +55,7 @@ public class QuestTransactor : MonoBehaviour
         Debug.Log("<color=green>Quest '" +
             pqm.activeQuest.questName + "' started.</color>");
         questName.text = "Quest: " + pqm.activeQuest.questName;
-        questStatus.text = "Quest Status: " + pqm.questStatus.ToString();
+        SetQuestStatus(QuestStatus.InProgress);
     }
 
     public void AddQuestItem(ItemSO item)
@@ -71,6 +71,7 @@ public class QuestTransactor : MonoBehaviour
     public void RemoveQuestItem(int index)
     {
         pqm.questItems.RemoveAt(index);
+        CountQuestItems();
     }
 
     private void AddItemToUI(ItemSO item)
@@ -82,13 +83,24 @@ public class QuestTransactor : MonoBehaviour
 
     private void CountQuestItems()
     {
-        int itemCount = pqm.questItems.Select(i => i == pqm.activeQuest.objectiveItem).Count();
+         int itemCount  = pqm.questItems.Where(i =>  i == pqm.activeQuest.objectiveItem).Count();
 
         if (itemCount >= pqm.activeQuest.objectiveQuantity)
         {
-            pqm.questStatus = QuestStatus.Completed;
-            Debug.Log("<color=blue>Quest objective met.</color>");
-            questStatus.text = "Quest Status: " + pqm.questStatus.ToString();
+            SetQuestStatus(QuestStatus.Completed);
         }
+        else
+        {
+            SetQuestStatus(QuestStatus.InProgress);
+        }
+    }
+
+    private void SetQuestStatus(QuestStatus status)
+    {
+        pqm.questStatus = status;
+        questStatus.text = "Quest Status: " + pqm.questStatus.ToString();
+
+        if(status == QuestStatus.Completed)
+        Debug.Log("<color=blue>Quest objective met.</color>");
     }
 }
