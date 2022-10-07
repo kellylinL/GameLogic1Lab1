@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Chicken
   itemValue: 100
-  img: {fileID: 21300000, guid: 4c23242cbf4a79643b0703f687c62d5d, type: 3}
+  img: {fileID: 21300000, guid: c6f3c848567d3bd41a4f52c5e2719fac, type: 3}
