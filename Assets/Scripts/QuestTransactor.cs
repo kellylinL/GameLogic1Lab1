@@ -99,6 +99,8 @@ public class QuestTransactor : MonoBehaviour
 
     private void CountQuestItems()
     {
+        if (pqm.activeQuest == null) return;
+
          int itemCount  = pqm.questItems.Where(i =>  i.item == pqm.activeQuest.objectiveItem).Count();
 
         if (itemCount >= pqm.activeQuest.objectiveQuantity)
