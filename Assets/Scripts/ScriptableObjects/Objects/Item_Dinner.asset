@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Dinner
   itemValue: 1000
-  img: {fileID: 0}
+  img: {fileID: 21300000, guid: d9e8aa2ac9309cc40840cffbc02994c1, type: 3}
