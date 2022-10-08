@@ -16,4 +16,5 @@ MonoBehaviour:
   questDescription: 
   objectiveItem: {fileID: 11400000, guid: 2af7b537e8aecc44782a6a0ece3e5e63, type: 2}
   objectiveQuantity: 3
-  rewardItems: []
+  rewardItems:
+  - {fileID: 11400000, guid: 8730445fd3895c8479ff6a783b4ccdfe, type: 2}
